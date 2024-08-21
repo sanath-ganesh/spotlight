@@ -1,0 +1,18 @@
+meta {
+  name: DeleteCommentInteraction
+  type: http
+  seq: 5
+}
+
+delete {
+  url: http://localhost:3000/spotlight/commentinteraction/662664d0cc31045c4b33dda7
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+      "isUpvoted": false,
+      "isDownvoted": true
+  }
+}

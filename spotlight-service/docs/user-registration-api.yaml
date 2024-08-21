@@ -1,0 +1,206 @@
+openapi: 3.1.0
+info:
+  title: User Management API
+  description: This API manages user information, allowing for user creation, retrieval, updating, and deletion.
+  version: '1.0'
+servers:
+  - url: http://localhost:3000
+paths:
+  /users:
+    post:
+      operationId: createUser
+      summary: Creates a new user
+      description: This endpoint is used for creating a new user in the system.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+            examples:
+              userExample:
+                summary: Example User
+                value:
+                  username: thanekrios
+                  firstName: Thane
+                  lastName: Krios
+                  email: thane.krios@example.com
+                  password: VerySecurePassword123
+      responses:
+        '201':
+          description: User successfully created.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '400':
+          description: Invalid input provided.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+    get:
+      operationId: getAllUsers
+      summary: Retrieves a list of users
+      description: This endpoint returns an array of users in the system.
+      responses:
+        '200':
+          description: A list of users.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/User'
+
+  /users/{userId}:
+    get:
+      operationId: getUserById
+      summary: Retrieves a user by ID
+      description: This endpoint returns a single user matching the provided ID.
+      parameters:
+        - name: userId
+          in: path
+          description: Unique identifier of the user
+          required: true
+          schema:
+            type: integer
+            examples:
+              - 1
+      responses:
+        '200':
+          description: User found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '404':
+          description: User not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+    put:
+      operationId: updateUser
+      summary: Updates an existing user
+      description: This endpoint updates the information for an existing user, identified by ID.
+      parameters:
+        - name: userId
+          in: path
+          description: Unique identifier of the user to update
+          required: true
+          schema:
+            type: integer
+            examples:
+              - 1
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+      responses:
+        '200':
+          description: User successfully updated.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '400':
+          description: Invalid input provided.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: User not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+    delete:
+      operationId: deleteUser
+      summary: Deletes a user
+      description: This endpoint deletes a user, identified by their ID.
+      parameters:
+        - name: userId
+          in: path
+          description: Unique identifier of the user to delete
+          required: true
+          schema:
+            type: integer
+            examples:
+              - 1
+      responses:
+        '204':
+          description: User successfully deleted.
+        '404':
+          description: User not found.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+components:
+  schemas:
+    User:
+      type: object
+      description: Schema representing a user entity.
+      properties:
+        id:
+          type: integer
+          description: Unique identifier for the user
+          examples:
+            - 1
+        username:
+          type: string
+          description: User's unique username
+          examples:
+            - 'thanekrios'
+        firstName:
+          type: string
+          description: User's first name
+          examples:
+            - 'Thane'
+        lastName:
+          type: string
+          description: User's last name
+          examples:
+            - 'Krios'
+        email:
+          type: string
+          description: User's email address
+          examples:
+            - 'thane.krios@example.com'
+        password:
+          type: string
+          description: User's password (encrypted)
+          examples:
+            - 'Very SecurePassword123'
+      required:
+        - username
+        - firstName
+        - lastName
+        - email
+        - password
+
+    Error:
+      type: object
+      description: Schema representing an error response.
+      properties:
+        code:
+          type: integer
+          description: HTTP status code of the error.
+          examples:
+            - 400
+        message:
+          type: string
+          description: Detailed description of the error.
+          examples:
+            - 'Invalid input provided.'
+      required:
+        - code
+        - message

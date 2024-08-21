@@ -1,0 +1,517 @@
+openapi: 3.1.0
+info:
+  title: The Issue post/thread API
+  summary: The REST service for creating/posting, editing, removing, and retrieving issues thread.
+  version: 'v1.0'
+servers:
+  - url: http://localhost:3001
+paths:
+  /IssueCreation:
+    post:
+      operationId: create-isssue-IssueCreation
+      summary: Creates an issue thread post for the user.
+      description: Creates an issue thread post for the user.
+      requestBody:
+        required: true
+        content: 
+          'application/json':
+            schema: 
+              $ref: '#/components/schemas/IssueCreation'
+      responses:
+        200:
+          description: Issue posted Successfully
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/IssueCreatedSuccessfully'
+        400:
+          description: Something went wrong on Client side
+          content:
+            'application/json':
+              schema: 
+                $ref: '#/components/schemas/IssueError400'
+        401:
+          description: Unauthorized access
+          content:
+            'application/json':
+              schema: 
+                $ref: '#/components/schemas/IssueError401'
+        500:
+          description: Something went wrong on Server side
+          content:
+            'application/json':
+              schema: 
+                $ref: '#/components/schemas/IssueCreateError500'
+
+  /IssueFetch/{issueId}:
+    get:
+      operationId: fetch-isssue-IssueFetch
+      summary: Fetches the issue post/thread based on 'issueId'.
+      description: Fetches an issue post/thread.
+      parameters:
+        - name: issueId
+          in: path
+          description: Id of the issue the user wants to fetch
+          required: true
+          schema:
+            type: integer
+      responses:
+        200:
+          description: Issue fetched Successfully
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/IssueDetailsFetched'
+        400:
+          description: Something went wrong on Client side
+          content:
+            'application/json':
+              schema: 
+                $ref: '#/components/schemas/IssueError400'
+        401:
+          description: Unauthorized access
+          content:
+            'application/json':
+              schema: 
+                $ref: '#/components/schemas/IssueError401'
+        500:
+          description: Something went wrong
+          content:
+            'application/json':
+              schema: 
+                $ref: '#/components/schemas/IssueFetchError'
+
+  /IssueFetch/{userId}:
+    get:
+      operationId: fetch-isssue-IssueFetchAllByUserId
+      summary: Fetches all the issues post/thread based on 'userId'.
+      description: Fetches all the issue post/thread for the given 'userId'.
+      parameters:
+        - name: userId
+          in: path
+          description: Id of the user whose all the issues are to be fetched.
+          required: true
+          schema:
+            type: integer
+      responses:
+        200:
+          description: All Issues fetched Successfully
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/AllIssueDetailsFetched'
+        400:
+          description: Something went wrong on Client side
+          content:
+            'application/json':
+              schema: 
+                $ref: '#/components/schemas/IssueError400'
+        401:
+          description: Unauthorized access
+          content:
+            'application/json':
+              schema: 
+                $ref: '#/components/schemas/IssueError401'
+        500:
+          description: Something went wrong
+          content:
+            'application/json':
+              schema: 
+                $ref: '#/components/schemas/IssueFetchError500'
+
+  /IssueFetch:
+    get:
+      operationId: fetch-isssue-IssueFetchAll
+      summary: Fetches all the issues post/thread.
+      description: Fetches all the issue post/thread.
+      responses:
+        200:
+          description: All Issues fetched Successfully
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/AllIssueDetailsFetcheAllUsers'
+        400:
+          description: Something went wrong on Client side
+          content:
+            'application/json':
+              schema: 
+                $ref: '#/components/schemas/IssueError400'
+        401:
+          description: Unauthorized access
+          content:
+            'application/json':
+              schema: 
+                $ref: '#/components/schemas/IssueError401'
+        500:
+          description: Something went wrong
+          content:
+            'application/json':
+              schema: 
+                $ref: '#/components/schemas/IssueFetchErrorAll500'
+  
+  /IssueUpdate/{issueId}:
+    put:
+      operationId: update-isssue-IssueUpdate
+      summary: Updates the Issue thread.
+      description: Updates an issue post/thread for the user.
+      parameters:
+        - name: issueId
+          in: path 
+          description: Id of the issue the user wants to update
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/IssueUpdateContent'
+
+      responses:
+        200:
+          description: Issue Updated Successfully
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/IssueUpdatedSuccessfully'
+        400:
+          description: Something went wrong on Client side
+          content:
+            'application/json':
+              schema: 
+                $ref: '#/components/schemas/IssueError400'
+        401:
+          description: Unauthorized access
+          content:
+            'application/json':
+              schema: 
+                $ref: '#/components/schemas/IssueError401'
+        500:
+          description: Something went wrong
+          content:
+            'application/json':
+              schema: 
+                $ref: '#/components/schemas/IssueUpdateErrors'
+  
+  /IssueDeletion/{issueId}:
+    delete:
+      operationId: delete-isssue-IssueDeletion
+      summary: Removes an issue post/thread for the owner of the Issue.
+      description: Deletes an issue post/thread for the user.
+      parameters:
+        - name: issueId
+          in: path
+          description: Id of the issue the user wants to delete
+          required: true
+          schema:
+            type: integer
+
+      responses:
+        200:
+          description: Issue deleted Successfully
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/IssueDeletedSuccessfully'
+        400:
+          description: Something went wrong on Client side
+          content:
+            'application/json':
+              schema: 
+                $ref: '#/components/schemas/IssueError400'
+        401:
+          description: Unauthorized access
+          content:
+            'application/json':
+              schema: 
+                $ref: '#/components/schemas/IssueError401'
+        500:
+          description: Something went wrong
+          content:
+            'application/json':
+              schema: 
+                $ref: '#/components/schemas/IssueDeleteErrors'
+  
+  /IssueDeletion/{userId}:
+    delete:
+      operationId: delete-isssue-IssueDeletionAllByUserId
+      summary: Removes all the issues post/thread for the 'userId'.
+      description: Deletes all the issues post/thread for the user.
+      parameters:
+        - name: userId
+          in: path
+          description: Id of the user whose all the issues post/thread are to be deleted
+          required: true
+          schema:
+            type: integer
+
+      responses:
+        200:
+          description: Issue deleted Successfully
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/IssueDeletedAllSuccessfully'
+        400:
+          description: Something went wrong on Client side
+          content:
+            'application/json':
+              schema: 
+                $ref: '#/components/schemas/IssueError400'
+        401:
+          description: Unauthorized access
+          content:
+            'application/json':
+              schema: 
+                $ref: '#/components/schemas/IssueError401'
+        500:
+          description: Something went wrong
+          content:
+            'application/json':
+              schema: 
+                $ref: '#/components/schemas/IssueDeleteAllErrors'
+
+components:
+  schemas:
+    IssueCreation:
+      type: object 
+      properties:
+        issueId:
+          type: integer
+          examples:
+            - 102
+        userId:
+          type: integer
+          examples:
+            - 001
+        title:
+          type: string
+          examples:
+            - Human Rights
+        content:
+          type: string
+          examples:
+            - Human rights are the basic rights and freedoms that belong to every person in the world, regardless of their nationality, race, ethnicity, religion, or any other status.
+    IssueCreatedSuccessfully:
+      type: object
+      properties:
+        code:
+          type: integer
+          examples:
+            - 200
+        message:
+          type: string
+          examples:
+            - Issue thread created and posted successfully!
+    IssueError400:
+      type: object
+      properties:
+        code:
+          type: integer
+          examples:
+            - 400
+        message:
+          type: string
+          examples:
+            - Something went wrong on client side. Try again!
+    IssueError401:
+      type: object
+      properties:
+        code:
+          type: integer
+          examples:
+            - 401
+        message:
+          type: string
+          examples:
+            - You are not authorized to access the resource.
+    IssueCreateError500:
+      type: object
+      properties:
+        code:
+          type: integer
+          examples:
+            - 500
+        message:
+          type: string
+          examples:
+            - New issue thread creation failed. Something went wrong. Try again!.
+    
+    IssueDetailsFetched:
+      type: object 
+      properties:
+        code: 
+          type: integer
+          examples:
+            - 200
+        issueId:
+          type: integer
+          examples:
+            - 103
+        userId:
+          type: integer
+          examples:
+            - 001
+        title:
+          type: string
+          examples:
+            - Human Rights
+        content:
+          type: string
+          examples:
+            - Human rights are the basic rights and freedoms that belong to every person in the world, regardless of their nationality, race, ethnicity, religion, or any other status.
+        comments:
+          type: array
+          examples:
+            - [{"issueId": 203, "userId": 002, "title": "Human Rights", "content": "Human rights are the basic rights and freedoms that belong to every person in the world, regardless of their nationality, race, ethnicity, religion, or any other status.", "comments": [{"issueId": 303, "userId": 003, "title": "Human Rights", "content": "Human rights are the basic rights and freedoms that belong to every person in the world, regardless of their nationality, race, ethnicity, religion, or any other status."}, "comments":[] ]}]
+    IssueFetchError:
+      type: object
+      properties:
+        code:
+          type: integer
+          examples:
+            - 500
+        message:
+          type: string
+          examples:
+            - Issue thread not fetched. Something went wrong. Try again!
+    
+    AllIssueDetailsFetched:
+      type: object 
+      properties:
+        code:
+          type: integer
+          examples:
+            - 200
+        response:
+          type: array
+          examples:
+            - [{"issueId": 203, "userId": 002, "title": "Human Rights1", "content": "Human rights are the basic rights and freedoms that belong to every person in the world, regardless of their nationality, race, ethnicity, religion, or any other status.", "comments": [{"issueId": 303, "userId": 003, "title": "Human Rights1", "content": "Human rights are the basic rights and freedoms that belong to every person in the world, regardless of their nationality, race, ethnicity, religion, or any other status."}, "comments":[] ]}, {"issueId": 204, "userId": 002, "title": "Human Rights2", "content": "Human rights are the basic rights and freedoms that belong to every person in the world, regardless of their nationality, race, ethnicity, religion, or any other status.", "comments": [{"issueId": 303, "userId": 003, "title": "Human Rights2", "content": "Human rights are the basic rights and freedoms that belong to every person in the world, regardless of their nationality, race, ethnicity, religion, or any other status."}, "comments":[] ]}, {"issueId": 205, "userId": 002, "title": "Human Rights3", "content": "Human rights are the basic rights and freedoms that belong to every person in the world, regardless of their nationality, race, ethnicity, religion, or any other status.", "comments": [{"issueId": 303, "userId": 003, "title": "Human Rights", "content": "Human rights are the basic rights and freedoms that belong to every person in the world, regardless of their nationality, race, ethnicity, religion, or any other status."}, "comments":[] ]}]
+    IssueFetchError500:
+      type: object
+      properties:
+        code:
+          type: integer
+          examples:
+            - 500
+        message:
+          type: string
+          examples:
+            - Issue thread not fetched. Something went wrong. Try again!
+
+    AllIssueDetailsFetcheAllUsers:
+      type: object 
+      properties:
+        code:
+          type: integer
+          examples:
+            - 200
+        response:
+          type: array
+          examples:
+            - [{"issueId": 201, "userId": 001, "title": "Human Rights1", "content": "Human rights are the basic rights and freedoms that belong to every person in the world, regardless of their nationality, race, ethnicity, religion, or any other status.", "comments": [{"issueId": 301, "userId": 003, "title": "Human Rights", "content": "Human rights are the basic rights and freedoms that belong to every person in the world, regardless of their nationality, race, ethnicity, religion, or any other status."}, "comments":[] ]}, {"issueId": 202, "userId": 002, "title": "Human Rights2", "content": "Human rights are the basic rights and freedoms that belong to every person in the world, regardless of their nationality, race, ethnicity, religion, or any other status.", "comments": [{"issueId": 302, "userId": 003, "title": "Human Rights", "content": "Human rights are the basic rights and freedoms that belong to every person in the world, regardless of their nationality, race, ethnicity, religion, or any other status."}, "comments":[] ]}, {"issueId": 203, "userId": 003, "title": "Human Rights3", "content": "Human rights are the basic rights and freedoms that belong to every person in the world, regardless of their nationality, race, ethnicity, religion, or any other status.", "comments": [{"issueId": 303, "userId": 003, "title": "Human Rights", "content": "Human rights are the basic rights and freedoms that belong to every person in the world, regardless of their nationality, race, ethnicity, religion, or any other status."}, "comments":[] ]},{"issueId": 204, "userId": 004, "title": "Human Rights4", "content": "Human rights are the basic rights and freedoms that belong to every person in the world, regardless of their nationality, race, ethnicity, religion, or any other status.", "comments": [{"issueId": 304, "userId": 003, "title": "Human Rights", "content": "Human rights are the basic rights and freedoms that belong to every person in the world, regardless of their nationality, race, ethnicity, religion, or any other status."}, "comments":[] ]},{"issueId": 205, "userId": 005, "title": "Human Rights5", "content": "Human rights are the basic rights and freedoms that belong to every person in the world, regardless of their nationality, race, ethnicity, religion, or any other status.", "comments": [{"issueId": 305, "userId": 003, "title": "Human Rights", "content": "Human rights are the basic rights and freedoms that belong to every person in the world, regardless of their nationality, race, ethnicity, religion, or any other status."}, "comments":[] ]}]
+    IssueFetchErrorAll500:
+      type: object
+      properties:
+        code:
+          type: integer
+          examples:
+            - 500
+        message:
+          type: string
+          examples:
+            - All Issue thread not fetched. Something went wrong. Try again!
+    
+    IssueUpdateContent:
+      type: object 
+      properties:
+        issueId:
+          type: integer
+          examples:
+            - 102
+        userId:
+          type: integer
+          examples:
+            - 001
+        title:
+          type: string
+          examples:
+            - Human Rights
+        content:
+          type: string
+          examples:
+            - Human rights are the basic rights and freedoms that belong to every person in the world, regardless of their nationality, race, ethnicity, religion, or any other status.    
+    IssueUpdatedSuccessfully:
+      type: object 
+      properties:
+        code:
+          type: integer
+          examples:
+            - 200
+        message:
+          type: string
+          examples:
+            - Issue thread updated successfully!
+        update:
+          type: object
+          examples:
+            - {"issueId": 203, "userId": 002, "title": "Human Rights", "content": "Human rights are the basic rights and freedoms that belong to every person in the world, regardless of their nationality, race, ethnicity, religion, or any other status.", "comments": [{"issueId": 303, "userId": 003, "title": "Human Rights", "content": "Human rights are the basic rights and freedoms that belong to every person in the world, regardless of their nationality, race, ethnicity, religion, or any other status."}, "comments":[] ]}
+    IssueUpdateErrors:
+      type: object
+      properties:
+        code:
+          type: integer
+          examples:
+            - 500
+        message:
+          type: string
+          examples:
+            - Issue thread not updated. Something went wrong!
+    
+    IssueDeletedSuccessfully:
+      type: object 
+      properties:
+        code:
+          type: integer
+          examples:
+            - 200
+        message:
+          type: string
+          examples:
+            - Issue thread deleted successfully!
+    IssueDeleteErrors:
+      type: object
+      properties:
+        code:
+          type: integer
+          examples:
+            - 500
+        message:
+          type: string
+          examples:
+            - Issue thread not deleted. Something went wrong. Try again!
+
+    IssueDeletedAllSuccessfully:
+      type: object 
+      properties:
+        code:
+          type: integer
+          examples:
+            - 200
+        message:
+          type: string
+          examples:
+            - All Issue threads deleted successfully!
+    IssueDeleteAllErrors:
+      type: object
+      properties:
+        code:
+          type: integer
+          examples:
+            - 500
+        message:
+          type: string
+          examples:
+            - Issue threads not deleted for the user. Something went wrong. Try again!

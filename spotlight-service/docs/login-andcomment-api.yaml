@@ -1,0 +1,160 @@
+openapi : 3.1.0
+info: 
+  title: Login + Comment APIs
+  summary: The REST service for adding or editing comments on existing issue + plus includes API for login
+  version: 'v1.0'
+servers:
+  - url: http://localhost:3001
+paths:
+  /updatecomment:
+    post:
+      operationId: update-comment
+      description: Edits comments if it belon
+      requestBody:
+        required: true
+        content:
+          'application/json':
+              schema:
+                $ref: '#/components/schemas/UpdateComment'
+      responses:
+        200:
+          description: Sucessful comment
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/CommentSuccess'
+        400:
+          description : Issue not found
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/CommentError'
+  /addcomment:
+    post: 
+      operationId: add-comment
+      description: adds comments on exisiting issue
+      requestBody: 
+        required: true
+        content: 
+          'application/json':
+            schema:
+              $ref: '#/components/schemas/Comment'
+      responses:
+        200:
+          description: Sucessful comment
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/CommentSuccess'
+        400:
+          description : Issue not found
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/CommentError'
+  /login:
+    post: 
+      operationId: login-user
+      description: Checks the credentials of user before successful login
+      requestBody: 
+        required: true
+        content: 
+          'application/json':
+            schema:
+              $ref: '#/components/schemas/User'
+      responses:
+        200:
+          description: Sucessfully login
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/UserSuccess'
+        401:
+          description : Unauthenticated request
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/Error'
+components:
+  schemas:
+    UpdateComment:
+      type: object
+      properties:
+        commentId:
+          type: integer
+          examples:
+            - 5436
+        new-content:
+          type: string
+          examples: 
+            - This is more serious issue...needs more attention
+    Comment:
+      type: object
+      properties:
+        issueId:
+          type: integer
+          examples:
+            - 2314
+        comment-content:
+          type: string
+          examples:
+            - This is a very serious issue...needs attention
+    CommentError:
+      type: object
+      properties:
+        code:
+          type: string
+          examples:
+             - Not found
+        message:
+            type: string
+            examples:
+              - Issue may have been closed/deleted
+    CommentSuccess:
+      type: object
+      properties:
+        code:
+          type: string
+          examples:
+            - success
+        message:
+          type: string
+          examples:
+            - successful comment
+    User:
+      type: object
+      properties:
+        username:
+          type: string
+          examples:
+            - karnik.me
+        password:
+          type: string
+          examples:
+            - dummypass1
+    Error:
+      type: object
+      properties:
+        code:
+          type: string
+          examples:
+             - Unauthenticated
+        message:
+            type: string
+            examples:
+              - User is unauthenticated
+    UserSuccess:
+      type: object
+      properties:
+        code:
+          type: string
+          examples:
+            - success
+        message:
+          type: string
+          examples:
+            - successful Login
+        sessionId:
+          type: string
+          examples:
+          - abcd12355

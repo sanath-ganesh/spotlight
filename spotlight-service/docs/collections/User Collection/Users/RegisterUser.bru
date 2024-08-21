@@ -1,0 +1,27 @@
+meta {
+  name: RegisterUser
+  type: http
+  seq: 2
+}
+
+post {
+  url: http://localhost:3000/spotlight/register
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "firstName":"Meet",
+    "lastName":"Karnik",
+    "email": "dummymail55@gmail.com",
+    "phone": {
+      "countryCode" : "+1",
+      "phone" : 6175698459
+    },
+    "location": "Boston",
+    "username":"mtkarnik55",
+    "password":"dummypass2",
+    "profilePic" : "dummypic1"
+  }
+}

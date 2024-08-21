@@ -1,0 +1,20 @@
+meta {
+  name: GetInteractionbyUserId
+  type: http
+  seq: 3
+}
+
+get {
+  url: http://localhost:3000/spotlight/issueinteraction/user/6624db1fefe220cc0179010e
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+      "userId": "6624d9e7efe220cc01790108",
+      "commentId": "662476f27cb3d115507918ca",
+      "isUpvoted": true,
+      "isDownvoted": false
+  }
+}

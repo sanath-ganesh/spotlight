@@ -1,0 +1,18 @@
+meta {
+  name: UpdateCommentInteraction
+  type: http
+  seq: 4
+}
+
+put {
+  url: http://localhost:3000/spotlight/issueinteraction/662673ee144eddc012768fb1
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+      "isUpvoted": false,
+      "isDownvoted": true
+  }
+}

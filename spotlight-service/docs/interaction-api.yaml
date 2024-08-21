@@ -1,0 +1,190 @@
+openapi : 3.1.0
+info: 
+  title: Interactions API
+  summary: The REST service for upvoting and downvoting comments and issues.
+  version: 'v1.0'
+servers:
+  - url: http://localhost:3001
+paths:
+  /upvoteissue:
+    post:
+      operationId: upvote-issue
+      description: upvote an issue
+      requestBody:
+        required: true
+        content:
+          'application/json':
+              schema:
+                $ref: '#/components/schemas/UpvoteIssue'
+      responses:
+        200:
+          description: Sucessful Upvote
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/UpvoteSuccess'
+        400:
+          description : Upvote Error
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/UpvoteError'
+  /downvoteIssue:
+    post: 
+      operationId: downvote-issue
+      description: downvote an issue
+      requestBody: 
+        required: true
+        content: 
+          'application/json':
+            schema:
+              $ref: '#/components/schemas/DownvoteIssue'
+      responses:
+        200:
+          description: Sucessful Downvote
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/DownvoteSuccess'
+        400:
+          description : Issue not Added
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/DownvoteError'
+  /upvotecomment:
+    post:
+      operationId: upvote-comment
+      description: Upvote Comment
+      requestBody:
+        required: true
+        content:
+          'application/json':
+              schema:
+                $ref: '#/components/schemas/UpvoteComment'
+      responses:
+        200:
+          description: Sucessfully updated issue
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/UpvoteSuccess'
+        400:
+          description : Issue not found
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/UpvoteError'
+  /downvotecomment:
+    post: 
+      operationId: downvote-comment
+      description: Downvote an comment
+      requestBody: 
+        required: true
+        content: 
+          'application/json':
+            schema:
+              $ref: '#/components/schemas/DownvoteComment'
+      responses:
+        200:
+          description: Sucessfully Added Issue
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/DownvoteSuccess'
+        400:
+          description : Issue not Added
+          content:
+            'application/json':
+              schema:
+                $ref: '#/components/schemas/DownvoteError'
+components:
+  schemas:
+    UpvoteIssue:
+      type: object
+      properties:
+        issueId:
+          type: integer
+          examples:
+            - 5436
+        no-of-upvotes:
+          type: integer
+          examples: 
+            - 200
+    DownvoteIssue:
+      type: object
+      properties:
+        issueId:
+          type: integer
+          examples:
+            - 2314
+        no-of-downvote:
+          type: integer
+          examples:
+            - 400
+    UpvoteComment:
+      type: object
+      properties:
+        commentId:
+          type: integer
+          examples:
+            - 5436
+        no-of-upvotes:
+          type: integer
+          examples: 
+            - 200
+    DownvoteComment:
+      type: object
+      properties:
+        commentId:
+          type: integer
+          examples:
+            - 2314
+        no-of-downvote:
+          type: integer
+          examples:
+            - 400
+    UpvoteError:
+      type: object
+      properties:
+        code:
+          type: string
+          examples:
+             - Not found
+        message:
+            type: string
+            examples:
+              - Error Upvote
+    UpvoteSuccess:
+      type: object
+      properties:
+        code:
+          type: string
+          examples:
+            - Success
+        message:
+          type: string
+          examples:
+            - Successful Upvote
+    DownvoteError:
+      type: object
+      properties:
+        code:
+          type: string
+          examples:
+             - Not found
+        message:
+            type: string
+            examples:
+              - Error Downvote
+    DownvoteSuccess:
+      type: object
+      properties:
+        code:
+          type: string
+          examples:
+            - success
+        message:
+          type: string
+          examples:
+            - Successful Downvote

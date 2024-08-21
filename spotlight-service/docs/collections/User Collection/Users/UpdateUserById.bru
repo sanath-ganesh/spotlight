@@ -1,0 +1,26 @@
+meta {
+  name: UpdateUserById
+  type: http
+  seq: 6
+}
+
+put {
+  url: http://localhost:3000/spotlight/user/6624d9e7efe220cc01790108
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "firstName":"Yash",
+    "lastName":"Karnik",
+    "email": "dummymail55@gmail.com",
+    "phone": {
+      "countryCode" : "+1",
+      "phone" : 6175698459
+    },
+    "username":"mtkarnik56",
+    "password":"dummypass2",
+    "profilePic" : "dummypic1"
+  }
+}

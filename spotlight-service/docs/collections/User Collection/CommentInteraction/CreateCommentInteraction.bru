@@ -1,0 +1,20 @@
+meta {
+  name: CreateCommentInteraction
+  type: http
+  seq: 1
+}
+
+post {
+  url: http://localhost:3000/spotlight/commentinteraction/
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+      "userId": "6624db1fefe220cc0179010e",
+      "commentId": "662476f27cb3d115507918ca",
+      "isUpvoted": true,
+      "isDownvoted": false
+  }
+}
